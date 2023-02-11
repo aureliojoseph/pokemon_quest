@@ -10,12 +10,14 @@
       />
     </nav>
 
-    <div class="app_container--list">
+    <div
+      @click="openInfoCard"
+      class="app_container--list"
+    >
       <div
         v-for="pokemon in filteredPokemons"
         :key="pokemon.name"
       >
-        <!-- component: AppPokemonCard.vue -->
         <app-pokemon-card
           :pokemon="pokemon"
           @display-card="showPokemon"
@@ -23,39 +25,22 @@
       </div>
     </div>
 
-    <!-- component: AppPokemonCardInfo.vue -->
-    <!-- <app-pokemon-card-info
-      :dialogVisible="showCardInfo"
-      :selectedPokemon="selectedPokemon"
-    /> -->
-
     <el-dialog
       v-model="showCardInfo"
-      width="15%"
+      width="30%"
       center
       :show-close="false"
       >
+
       <template #header>
-        <img src="@/assets/arrow-left-thin.svg" alt="left arrow icon">
+        <img @click="closeInfoCard" src="@/assets/arrow-left-thin.svg" alt="left arrow icon">
         <img src="@/assets/heart-thin.svg" alt="heart icon">
       </template>
+
       <div v-if="selectedPokemon">
-        <el-card>
-          <p>{{getName(selectedPokemon)}}</p>
-          <el-tag
-            v-for="type in selectedPokemon.types"
-            :key="type.slot"
-            effect="dark"
-            round
-          >
-            {{type.type.name}}
-          </el-tag>
-          <img
-            :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${selectedPokemon.id}.png`"
-            :alt="selectedPokemon.name"
-          >
-        </el-card>
+        <app-pokemon-types :selectedPokemon="selectedPokemon" />
       </div>
+
     </el-dialog>
   </div>
 </template>
@@ -63,13 +48,13 @@
 <script>
   import axios from 'axios'
   import AppPokemonCard from './components/AppPokemonCard.vue'
-  // import AppPokemonCardInfo from './components/AppPokemonCardInfo.vue'
+  import AppPokemonTypes from './components/AppPokemonTypes.vue'
 
   export default {
     name: 'App',
     components: {
       AppPokemonCard,
-      // AppPokemonCardInfo
+      AppPokemonTypes
     },
     data() {
       return {
@@ -89,11 +74,11 @@
         })
       },
 
-      getName(pokemon) {
-        return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
+      openInfoCard() {
+        return this.showCardInfo = true
       },
 
-      closeDialog() {
+      closeInfoCard() {
         return this.showCardInfo = false
       }
     },
@@ -159,6 +144,58 @@
       grid-template-columns: repeat(5, 1fr);
       gap: 1rem;
       margin-top: 9rem;
+    }
+
+    :deep {
+      .el-dialog {
+        border-radius: 20px;
+
+        .el-dialog__header {
+          margin: 0;
+          padding: 40px 20px 10px;
+          display: flex;
+          justify-content: space-between;
+          background-color: #e3fafc;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+          
+          img {
+            width: 18px;
+            cursor: pointer;
+          }
+        }
+
+        .el-dialog__body {
+          padding: 0;
+          background-color: #e3fafc;
+          border-bottom-left-radius: 20px;
+          border-bottom-right-radius: 20px;
+
+          .el-card {
+            border-radius: 20px;
+
+            .el-card__body {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              background-color: #0b7285;
+
+              .type_card {
+                text-align: center;
+
+                h2 {
+                  color: #fff;
+                }
+
+                .type_card--tag {
+                  display: flex;
+                  gap: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 </style>
