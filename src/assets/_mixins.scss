@@ -1,0 +1,24 @@
+//---------------------------------------------
+// [Responsive]
+//---------------------------------------------
+
+// usage : @include screen-laptop-only { ... }
+@mixin screen-laptop-only {
+  @media only screen and (min-width: 992px) and (max-width: 1439px) {
+    @content;
+  }
+}
+
+// usage : @include screen-tablet-only { ... }
+@mixin screen-tablet-only {
+  @media only screen and (min-width: 767px) and (max-width: 992px) {
+    @content;
+  }
+}
+
+// usage : @include screen-mobile { ... }
+@mixin screen-mobile {
+  @media only screen and (max-width: 767px) {
+    @content;
+  }
+}
