@@ -1,5 +1,5 @@
 <template>
-  <div class="poke_card">
+  <div class="poke-card">
     <el-card @click="showPokemon(getId(pokemon))">
       <img
         :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getId(pokemon)}.png`"
@@ -36,10 +36,10 @@
 </script>
 
 <style lang="scss" scoped>
-  .poke_card {
+  .poke-card {
     &:deep {
       .el-card {
-        background-color: #f3f0ff;
+        background-color: #ebfbee;
         cursor: pointer;
         transition: all 0.2s;
 

@@ -39,6 +39,7 @@
 
       <div v-if="selectedPokemon">
         <app-pokemon-types :selectedPokemon="selectedPokemon" />
+        <app-base-stats :selectedPokemon="selectedPokemon" />
       </div>
 
     </el-dialog>
@@ -49,12 +50,14 @@
   import axios from 'axios'
   import AppPokemonCard from './components/AppPokemonCard.vue'
   import AppPokemonTypes from './components/AppPokemonTypes.vue'
+  import AppBaseStats from './components/AppBaseStats.vue'
 
   export default {
     name: 'App',
     components: {
       AppPokemonCard,
-      AppPokemonTypes
+      AppPokemonTypes,
+      AppBaseStats
     },
     data() {
       return {
@@ -100,6 +103,8 @@
 </script>
 
 <style scoped lang="scss">
+  @import "@/assets/_mixins";
+
   .app_container {
     background-color: #fff;
     padding: 0 80px 40px;
@@ -125,7 +130,7 @@
       
       &:deep {
         .el-input {
-          width: 30rem;
+          width: 20rem;
           margin-bottom: 1rem;
 
           .el-input__wrapper {
@@ -146,7 +151,7 @@
       margin-top: 9rem;
     }
 
-    :deep {
+    &:deep {
       .el-dialog {
         border-radius: 20px;
 
@@ -166,7 +171,7 @@
         }
 
         .el-dialog__body {
-          padding: 0;
+          padding: 4px;
           background-color: #e3fafc;
           border-bottom-left-radius: 20px;
           border-bottom-right-radius: 20px;
@@ -178,16 +183,16 @@
               display: flex;
               flex-direction: column;
               align-items: center;
-              background-color: #0b7285;
+              background-color: #1098ad;
 
-              .type_card {
+              .type-card {
                 text-align: center;
 
                 h2 {
                   color: #fff;
                 }
 
-                .type_card--tag {
+                .type-card__tag {
                   display: flex;
                   gap: 10px;
                 }
@@ -195,6 +200,27 @@
             }
           }
         }
+      }
+    }
+
+    // responsive between min-width: 992px and max-width: 1439px
+    @include screen-laptop-only {
+      .app_container--list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    // responsive between min-width: 767px and max-width: 992px
+    @include screen-tablet-only {
+      .app_container--list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    // responsive bellow width: 767px
+    @include screen-mobile {
+      .app_container--list {
+        grid-template-columns: 1fr;
       }
     }
   }
